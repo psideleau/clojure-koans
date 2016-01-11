@@ -6,6 +6,7 @@
    :city "Testerville"
    :state "TX"})
 
+
 (meditations
   "Destructuring is an arbiter: it breaks up arguments"
   (= ":bar:foo" ((fn [[a b]] (str b a))
@@ -37,8 +38,10 @@
   "Or more succinctly"
   (= "123 Test Lane, Testerville, TX"
      (let [{:keys [street-address city state]} test-address]
-       (clojure.string/join ", " :keys)))
+       (clojure.string/join ", " [street-address, city, state])))
 
   "All together now!"
   (= "Test Testerson, 123 Test Lane, Testerville, TX"
-     (___ ["Test" "Testerson"] test-address)))
+     ((fn [[first-name last-name] {:keys [street-address city state]} ]
+         (clojure.string/join ", " [(str first-name " " last-name), street-address, city, state]))
+       ["Test" "Testerson"] test-address)))
