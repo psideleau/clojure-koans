@@ -9,8 +9,8 @@
 
 (defmacro infix-better [form]
   `(~(second form) ; Note the syntax-quote (`) and unquote (~) characters!
-    __
-    __ ))
+     ~(first form)
+     ~(nth form 2)))
 
 (defmacro r-infix [form]
   (cond (not (seq? form))
@@ -36,7 +36,7 @@
   (= '(+ 9 1) (macroexpand '(infix (9 + 1))))
 
   "You can do better than that - hand crafting FTW!"
-   (= 20 (macroexpand '(infix-better (10 * 2))))
+  (= 20 (macroexpand '(infix-better (10 * 2))))
 
   "Things don't always work as you would like them to... "
   (= __ (macroexpand '(infix-better ( 10 + (2 * 3)))))
